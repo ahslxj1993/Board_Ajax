@@ -42,11 +42,47 @@ $(function () {
 	})//id keyup function end
 	
 	$('form').on('submit', function () {
+		var senddata = $("#insert_form").serialize();
 		
 	})//form submit function end
 	
 	
+	$("input:eq(6)").on('keyup', function () {
+		$('#email_message').empty();
+		//[A-Za-z0-9_]와 동일한 것이 \w 입니다
+		//+는 1회이상 반복을 의미하고 {1,}와 동일합니다.
+		//\w+ 는 [A-za-z0-9_]를 1개이상 사용하라는 의미힙니다
+		var pattern = /^\w+@\w+[.]\w{3}/;
+		var email = $("input:eq(6)").val();
+		
+		if(!pattern.test(email)){
+			$('#email_message').css("color","red").html("이메일 형식이 맞지 않습니다");
+			check_email = false;
+		} else {
+			$('#email_message').css("color","green").html("이메일 형식에 맞습니다");
+			check_email=true;
+		}
+	})//email keyup event end
 	
+	$('form').submit(function () {
+		if (!$.isNumeric($('input[name="age"]').val())){
+			alert("나이는 숫자를 입력하세요");
+			$("input[name='age']").val('').focus();
+			return false;
+		}
+		
+		if(!check_id){
+			alert("사용가능한 아이디로 입력하세요");
+			$("input:eq(0)").val('').focus();
+			return false;
+		}
+		
+		if(!check_email){
+			alert("이메일 형식을 확인하세요");
+			$("input:eq(6)").focus();
+			return false;
+		}
+	})//submit event end
 	
 })//ready
 </script>

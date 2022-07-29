@@ -15,3 +15,4 @@ primary key (id)
 );
 
 --memberfile은 회원 정보 수정시 적용합니다
+select * from member;

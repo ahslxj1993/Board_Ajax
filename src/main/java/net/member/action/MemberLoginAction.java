@@ -11,6 +11,7 @@ public class MemberLoginAction implements Action{
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
+		
 		String id = "";
 		Cookie [] cookies = request.getCookies();
 		if (cookies != null) {

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("*.net")
-public class MemberFrontController extends HttpServlet {
+public class MemberFrontController extends javax.servlet.http.HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -49,6 +49,16 @@ public class MemberFrontController extends HttpServlet {
 		case "/idcheck.net":
 			action = new MemberIdCheckAction();
 			break;
+		case "/joinProcess.net":
+			action = new MemberJoinProcessAction();
+			break;
+		case "/loginProcess.net":
+			action = new MemberLoginProcessAction();
+			break;
+		case "/logout.net":
+			action = new MemberLogoutAction();
+			break;
+			
 		}//switch end
 		forward = action.execute(request, response);
 		
