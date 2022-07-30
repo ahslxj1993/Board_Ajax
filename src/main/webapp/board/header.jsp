@@ -31,7 +31,7 @@ resize: none;
 }
 </style>
 
-<c:if test="${empty id }">
+<c:if test="${empty id}">
 	<script>
 		location.href = "login.net";
 	</script>
@@ -39,13 +39,13 @@ resize: none;
 
 <nav class="navbar navbar-expand-sm right-block navbar-dark">
 	<ul class="navbar-nav">
-		<c:if test="${!empty id }">
+		<c:if test="${!empty id}">
 			<li class="nav-item">
 				<a class="nav-link" href="logout.net">${id }님 (로그아웃)</a></li>
 			<li class="nav-item">
 				<a class="nav-link" href="memberUpdate.net">정보수정</a></li>
 				
-			<c:if test="${id=='admin' }">
+			<c:if test="${id=='admin'}">
 			<!-- Dropdown -->
 				<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#"
