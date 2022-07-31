@@ -64,7 +64,8 @@ from (select rownum rnum, j.*
 											group by comment_board_num)
 				on board_num = comment_board_num
 				order by BOARD_RE_REF desc,
-				BOARD_RE_SEQ asc) j
+				BOARD_RE_SEQ asc
+				) j
 				where rownum <= 10
 		)
 where rnum>=1 and rnum <=10
