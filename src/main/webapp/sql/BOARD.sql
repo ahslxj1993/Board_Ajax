@@ -54,16 +54,18 @@ order by board_re_ref desc,
 board_re_seq asc;
 
 --4. 인라인 뷰를 이용한 쿼리문 작성
-select * from (select rownum rnum, j.*
-				from (
-					select board_num , board_subject, nvl(cnt,0) cnt
-					from board left outer join(select comment_board_num, count(*) cnt
-												from comm
-												group by comment_board_num)
-					on board_num = comment_board_num
-					order by board_re_ref desc,
-					board_re_seq asc;
-					) j
-				where rownum<=20 )
-where rnum>=11 and rnum<=20;
+
+
+select *
+from (select rownum rnum, j.* 
+		from (select board.* , nvl(cnt,0) cnt 
+				from board left outer join (select comment_board_num, count(*) cnt
+											from comm
+											group by comment_board_num)
+				on board_num = comment_board_num
+				order by BOARD_RE_REF desc,
+				BOARD_RE_SEQ asc) j
+				where rownum <= 10
+		)
+where rnum>=1 and rnum <=10
 
