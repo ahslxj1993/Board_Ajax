@@ -57,7 +57,6 @@ img{width:20px}
 			<button type=reset class="btn btn-danger">취소</button>
 		</div>
 	</form>
-	<%--form action=boardaddaction 으로 해서 데이터 추가가 됐었음. 지우고 action=boardmodifyaction으로 바꿔야함 --%>
 </div>
 </body>
 </html>
