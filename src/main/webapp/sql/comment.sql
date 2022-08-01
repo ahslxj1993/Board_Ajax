@@ -15,3 +15,6 @@ comment_re_ref number	-- 원문은 자신 ㄱ ㅡㄹ번호, 답글이면 원문 글번호
 drop sequence com_seq;
 
 create sequence com_seq;
+
+
+select * from comm;

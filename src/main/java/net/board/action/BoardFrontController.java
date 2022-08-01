@@ -31,6 +31,18 @@ public class BoardFrontController extends javax.servlet.http.HttpServlet {
 		case "/BoardList.bo" :
 			action = new BoardListAction();
 			break;
+		case "/BoardWrite.bo":
+			action = new BoardWriteAction(); 
+			break;
+		case "/BoardAddAction.bo":
+			action = new BoardAddAction();
+			break;
+		case "/BoardDetailAction.bo":
+			action = new BoardDetailAction();
+			break;
+		case "/BoardModifyView.bo":
+			action = new BoardModifyView();
+			break;
 		}
 		
 		forward = action.execute(request, response);

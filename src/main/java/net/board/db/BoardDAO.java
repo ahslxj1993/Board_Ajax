@@ -151,4 +151,155 @@ public class BoardDAO {
 		
 	}//getBoardList end
 
+
+
+	//글 등록하기
+	public boolean boardInsert(BoardBean board) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		try {
+			con = ds.getConnection();
+			
+			String max_sql = "(select nvl(max(board_num),0)+1 from board)";
+			
+			String sql = "insert into  board "
+						+ " (BOARD_NUM,	BOARD_NAME, BOARD_PASS,	BOARD_SUBJECT, "
+						+ "	 BOARD_CONTENT,	BOARD_FILE, BOARD_RE_REF, "
+						+ "	 BOARD_RE_LEV, BOARD_RE_SEQ, BOARD_READCOUNT) "
+						+ "	values ("+ max_sql+ " ,?,?,?, "
+						+ "			?,?," + max_sql + ", "
+						+ "			?,?,?)";
+			
+			//새로운 글을 등록하는 부분입니다.
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, board.getBoard_name());
+			pstmt.setString(2, board.getBoard_pass());
+			pstmt.setString(3, board.getBoard_subject());
+			pstmt.setString(4, board.getBoard_content());
+			pstmt.setString(5, board.getBoard_file());
+			
+			//원문의 경우 BOARD_RE_LEV, BOARD_RE_SEQ 필드 값은 0 입니다.
+			pstmt.setInt(6,0);
+			pstmt.setInt(7,0);
+			pstmt.setInt(8,0);
+			
+			result = pstmt.executeUpdate();
+			if (result ==1) {
+				System.out.println("데이터 삽입이 모두 완료되었습니다");
+				return true;
+			}
+		} catch (Exception ex) {
+			System.out.println("boardInsert() 에러 : "+ ex);
+			ex.printStackTrace();
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+				}
+
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+		} // finally end
+		return false;
+	} //boardInsert () end
+
+
+
+
+	public void setReadCountUpdate(int num) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		String sql = "update board "
+					+ " set BOARD_READCOUNT = BOARD_READCOUNT+1 "
+					+ " where BOARD_NUM = ?";
+		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+		} catch (SQLException ex) {
+			System.out.println("setReadCountUpdate() 에러 : "+ ex);
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+				}
+
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+			} // finally end
+	}//setReadCountUpdate () end
+
+
+
+	//글 내용 보기
+	public BoardBean getDetail(int num) {
+		BoardBean board = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement("select * from  board where BOARD_NUM = ?");
+			pstmt.setInt(1,num);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				board = new BoardBean();
+				board.setBoard_num(rs.getInt("BOARD_NUM"));
+				board.setBoard_name(rs.getString("BOARD_NAME"));
+				board.setBoard_subject(rs.getString("BOARD_SUBJECT"));
+				board.setBoard_content(rs.getString("BOARD_CONTENT"));
+				board.setBoard_file(rs.getString("BOARD_FILE"));
+				board.setBoard_re_ref(rs.getInt("BOARD_RE_REF"));
+				board.setBoard_re_lev(rs.getInt("BOARD_RE_LEV"));
+				board.setBoard_re_seq(rs.getInt("BOARD_RE_SEQ"));
+				board.setBoard_readcount(rs.getInt("BOARD_READCOUNT"));
+				board.setBoard_date(rs.getString("BOARD_DATE"));
+				
+			}
+		} catch (Exception ex) {
+			System.out.println("getDetail() 에러 : " + ex);
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+				}
+
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+				}
+
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+		} // finally end
+		return board;
+	} //getDetail()  end
+
 }

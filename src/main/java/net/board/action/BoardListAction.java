@@ -26,7 +26,7 @@ public class BoardListAction implements Action {
 		List<BoardBean> boardlist = new ArrayList<BoardBean> ();
 		
 		int page =1;
-		int limit = 10;
+		int limit = 1;
 		if (request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
@@ -92,7 +92,7 @@ public class BoardListAction implements Action {
 		
 		if (state == null) {
 			System.out.println("state=null");
-			request.setAttribute("page",page);
+			request.setAttribute("page",page); //현재페이지
 			request.setAttribute("maxpage", maxpage);
 			
 			//현재 페이지에 표시할 첫 페이지수
