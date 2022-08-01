@@ -16,7 +16,7 @@ img{width:20px}
 </head>
 <body>
 <div class="container">
-	<form action="BoardAddAction.bo" method="post" enctype="multipart/form-data" name="boardform">
+	<form action="BoardModifyAction.bo" method="post" enctype="multipart/form-data" name="boardform">
 		<h1>MVC 게시판 - write 페이지</h1>
 		<div class="form-group">
 			<label for="board_name">글쓴이</label>
@@ -57,6 +57,7 @@ img{width:20px}
 			<button type=reset class="btn btn-danger">취소</button>
 		</div>
 	</form>
+	<%--form action=boardaddaction 으로 해서 데이터 추가가 됐었음. 지우고 action=boardmodifyaction으로 바꿔야함 --%>
 </div>
 </body>
 </html>
