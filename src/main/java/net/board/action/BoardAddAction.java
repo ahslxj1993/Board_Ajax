@@ -42,7 +42,7 @@ public class BoardAddAction implements Action {
 														"utf-8",
 														new DefaultFileRenamePolicy());
 			
-			//BoardBean 객ㅊ체에서 글 등록 폼에서 입력 받은 정보들을 저장합니다.
+			//BoardBean 객체에서 글 등록 폼에서 입력 받은 정보들을 저장합니다.
 			boarddata.setBoard_name(multi.getParameter("board_name"));
 			boarddata.setBoard_pass(multi.getParameter("board_pass"));
 			boarddata.setBoard_subject(multi.getParameter("board_subject"));

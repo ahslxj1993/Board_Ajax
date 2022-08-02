@@ -26,7 +26,7 @@ public class BoardListAction implements Action {
 		List<BoardBean> boardlist = new ArrayList<BoardBean> ();
 		
 		int page =1;
-		int limit = 1;
+		int limit = 5;
 		if (request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}

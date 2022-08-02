@@ -83,7 +83,7 @@
 			<div class="modal-content">
 				<%-- Modal body --%>
 				<div class="modal-body">
-					<form name="deleteFrom" action="BoardDeleteAction.bo" method="post">
+					<form name="deleteForm" action="BoardDeleteAction.bo" method="post">
 					<%-- http://localhost:8088/Board/BoradDetailAction.bo?num=22
 										주소를 보면 num을 파라미터로 넘기고 있습니다.
 										이값을 가져와서 ${param.num}를 사용

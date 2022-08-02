@@ -58,6 +58,9 @@ public class MemberFrontController extends javax.servlet.http.HttpServlet {
 		case "/logout.net":
 			action = new MemberLogoutAction();
 			break;
+		case "/memberUpdate.net":
+			action = new MemberUpdateAction();
+			break;
 			
 		}//switch end
 		forward = action.execute(request, response);

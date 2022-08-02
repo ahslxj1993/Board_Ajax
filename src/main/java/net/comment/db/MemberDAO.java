@@ -170,5 +170,58 @@ public class MemberDAO {
 	}//insert () end
 
 
+	public Member member_info(String id) {
+		Member m = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+	
+		try {
+			con = ds.getConnection();
+
+			String sql = "select * from member where id = ? ";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				m = new Member();
+				m.setId(rs.getString(1));
+				m.setPassword(rs.getString(2));
+				m.setName(rs.getString(3));
+				m.setAge(rs.getInt(4));
+				m.setGender(rs.getString(5));
+				m.setEmail(rs.getString(6));
+				m.setMemberfile(rs.getString(7)); //Ãß°¡
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+				}
+
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+				}
+
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+		} // finally end
+		return m;
+	}
+
+
 
 }
