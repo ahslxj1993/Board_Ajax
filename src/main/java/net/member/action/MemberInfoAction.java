@@ -1,5 +1,5 @@
 package net.member.action;
 
-public class MemberInfoAction {
+public class MemberInfoAction implements Action {
 
 }

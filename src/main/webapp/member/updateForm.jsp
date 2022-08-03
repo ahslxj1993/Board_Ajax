@@ -91,8 +91,9 @@ display:none;
 		history.back();
 	})
 	
-	//처음 화면 로드시 보여줄 이메일은 이미 체크 와료된 것이므로 기본 checkemail = true 입니다.
+	//처음 화면 로드시 보여줄 이메일은 이미 체크 완료된 것이므로 기본 checkemail = true 입니다.
 	var checkemail = true;
+	
 	$("input:eq(6)").on ('keyup', function () {
 		$("#email_message").empty();
 		//[A-Za-z0-9_]와 동일한 것이 \w
@@ -121,7 +122,38 @@ display:none;
 			$("input:eq(6)").focus();
 			return false;
 		}
-	})
+	})//submit event end
+	
+	$('input[type=file]').change(function (event) {
+		var inputfile = $(this).val().split('\\');
+		var filename = inputfile[inputfile.length - 1];
+		
+		var pattern = /(gif|jpg|jpeg|png)$/i; //i(ignore case)는 대소문자 무시를 의미
+		
+		if (pattern.test(filename)){
+			$('#filename').text(filename);//inputfile.length - 1 = 2
+			
+			var reader = new FileReader(); //파일을 읽기위한 객체 생성
+		//DataURL 형식(접두사 data :가 붙은 URL이며 바이너리 파일을  Base64로 인코딩하여 ASCII 문자열 형식으로 변환 한것)으로
+		//파일을 읽어옵니다. (참고-Base64 인코딩은 바이너리 데이터를 Text로 변경하는 Encoding 입니다.)
+		//네트워크 탭에서 실행후 Headers 확인해보세요
+		
+		//읽어온 결과는 reader객체의 result 속성에 저장됩니다.
+		//event.target.files[0] : 선택한 그림의 파일객체에서 첫번째 객체를 가져옵니다.
+			reader.readAsDataURL(event.target.files[0]);
+		
+			reader.onload = function () { //읽기에 성공했을 때 실행되는 이벤트 핸들러
+				//$('#showImage').html('<img width="20px src="'+this.result+'">');
+				$('#showImage > img').attr("src", this.result);
+			};
+		} else {
+				alert('이미지파일(gif,jpg,jpeg,png)이 아닌 경우에는 무시됩니다.');
+				$('#filname').text('');
+				$('#showImage > img').attr('src','image/profile.png');
+				$(this).val('');
+				}
+	})//change() end
+	
 	</script>
 </body>
 </html>

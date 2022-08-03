@@ -1,5 +1,5 @@
 package net.member.action;
 
-public class MemberDeleteAction {
+public class MemberDeleteAction implements Action {
 
 }
