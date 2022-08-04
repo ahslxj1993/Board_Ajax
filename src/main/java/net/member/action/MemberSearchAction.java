@@ -29,7 +29,7 @@ public class MemberSearchAction implements Action {
 		
 		List<Member> list = null;
 		int listcount =0;
-		int index = -1; //search_field에 존재하지 않느 값으로 초기화
+		int index = -1; //search_field에 존재하지 않는 값으로 초기화
 		
 		String search_word="";
 		

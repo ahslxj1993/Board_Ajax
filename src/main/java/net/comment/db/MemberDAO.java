@@ -319,7 +319,7 @@ public class MemberDAO {
 			con = ds.getConnection();
 			String sql = "select count(*) from member "
 						+ " where id != 'admin' "
-						+ " and" + field + " like ?"; //and name like '%홍길동%'
+						+ " and " + field + " like ?"; //and name like '%홍길동%'
 			System.out.println(sql);
 			pstmt= con.prepareStatement(sql);
 			pstmt.setString(1, "%"+value+"%"); //'%홍길동%'
@@ -442,7 +442,7 @@ public class MemberDAO {
 					+ "	where rnum >= ? and rnum <= ?";
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, "%"+field+"%");
+			pstmt.setString(1, "%"+value+"%");
 			
 			//한 페이지당 10개씩 목록인 경우 1페이지, 2페이지, 3페이지, 4페이지 ...
 			int startrow = (page -1 )* limit +1;
@@ -491,6 +491,37 @@ public class MemberDAO {
 		} // finally end
 		return list;
 	} //getList () end
+
+
+	public int delete(String id) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int result =0;
+		try {
+			con = ds.getConnection();
+			String sql = "delete from member where id = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			result = pstmt.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+				}
+
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+		}
+		return result;
+	}
 
 
 
