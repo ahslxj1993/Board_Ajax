@@ -103,6 +103,34 @@
 			</div>
 		</div>
 	</div>
-</div>
+	<%--id="myModal" end --%>
+	
+	<div class="comment-area">
+		<div class="comment-head">
+			<h3 class="comment-count">
+				댓글 <sup id="count"></sup><%-- spuerscript(윗첨자) --%>
+			</h3>
+			<div class="comment-order">
+				<ul class="comment-order-list">
+				</ul>
+			</div>
+		</div> <!-- comment-head end -->
+		<ul class="comment-list">
+		</ul>
+		<div class="commnet-write">
+			<div class="comment-write-area">
+				<b class="comment-write-area-name">${id }</b> <span
+					class="comment-write-area-count">0/200</span>
+				<textarea placeholder="댓글을 남겨보세요" rows="1"
+					class="comment-write-area-text" maxLength="200"></textarea>
+			
+			</div>
+			<div class="register-box">
+				<div class="button btn-cancel">취소</div> <%-- 댓글의 취소는 display:none, 등록만 보이도록 합니다 --%>
+				<div class="button btn-register">등록</div>
+			</div>
+		</div>
+	</div><%--comment-area end --%>
+</div><%--class="container" end --%>
 </body>
 </html>

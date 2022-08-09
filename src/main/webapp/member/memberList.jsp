@@ -185,7 +185,7 @@ td:nth-child(1) {
 					</c:if>
 					<c:if test="${a != page }">
 						<c:url var="go" value="memberList.net">
-							<c:param name="search_field" value="${search_filed}" />
+							<c:param name="search_field" value="${search_field}" />
 							<c:param name="search_word" value="${search_word}" />
 							<c:param name="page" value="${a}" />
 						</c:url>

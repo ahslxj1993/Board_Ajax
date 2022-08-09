@@ -7,11 +7,28 @@ function go (page){
 
 //총 2페이지 페이징 처리 된 ㄱ ㅕㅇ우
 //이전	1	2	다음
-//현재 ㅍ ㅔ이지가 1페이지인 경우 아래와 같은  페이징 코드가 필요
+//현재 페이지가 1페이지인 경우 아래와 같은  페이징 코드가 필요
 //<li class="page-item"><a class="page-link gray">이전&nbsp;</a></li>
 //<li class="page-item active"><a class="page-link">1</a></li>
 //<li class="page-item"><a class="page-link" href="javascript:go(2)">2</a></li>
 //<li class="page-item"><a class="page-link" href="javascript:go(2)">다음&nbsp;</a></li>
+function setPaging(href, digit){
+	active="";
+	gray="";
+	if(href=="") { //href가 빈문자열인 경우
+		if(isNaN(digit)){//이전&nbsp; 또는 다음&nbsp;
+			gray=" gray";
+		}else{
+		    active=" active";
+		}
+	}
+	var output = "<li class='page-item" + active + "'>";
+	var anchor = "<a class='page-link" + gray + "'"  + href + ">"+ digit + "</a></li>";
+	output += anchor;
+	return output;
+}
+
+
 
 
 //ajax
@@ -43,7 +60,7 @@ function ajax(send_data){
 						}
 						img="";
 						if (item.board_re_lev >0){
-							img="<img src-'image/line.gif'>";
+							img="<img src='image/line.gif'>";
 						}
 						
 						var subject = item.board_subject;
@@ -61,15 +78,44 @@ function ajax(send_data){
 									+ '</div></td></tr>'
 					}) 
 				output += "</tbody>"
-				$("table").append(output)//table 완성
-			} //if(data.listcount)>0 end
+				$('table').append(output)//table 완성
+				
+				$(".pagination").empty(); //페이징 처리 영역 내용 제거
+				output = "";
+				
+				digit = '이전&nbsp;'
+				href="";	
+				if (data.page > 1) {
+					href = 'href=javascript:go(' + (data.page - 1) + ')';
+				}
+				output += setPaging(href, digit);
+				
+				for (var i = data.startpage; i <= data.endpage; i++) {
+					digit = i;
+					href="";
+					if (i != data.page) {
+						href = 'href=javascript:go(' + i + ')';
+					} 
+					output += setPaging( href, digit);
+				}
+				
+				digit = '&nbsp;다음&nbsp;';
+				href="";
+				if (data.page < data.maxpage) {
+					href = 'href=javascript:go(' + (data.page + 1) + ')';
+				} 
+				output += setPaging( href, digit);
+
+				$('.pagination').append(output)
+			}//if(data.listcount)>0 end	
+			
 		}, //success end
-		error : function () {
+		error : function() {
 			console.log('에러')
 		}
-		
-	}) //ajax end
-}// function ajax end
+	})// ajax end
+ } // fucntion ajax end
+
 
 
 

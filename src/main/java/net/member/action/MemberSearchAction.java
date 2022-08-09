@@ -34,7 +34,7 @@ public class MemberSearchAction implements Action {
 		String search_word="";
 		
 		//메뉴-관리자-회원정보 클릭한 경우(member_list.net)
-		//또는 메뉴-관리자-회ㅐ원정보 클릭후 페이지 클릭한 경우
+		//또는 메뉴-관리자-회원정보 클릭후 페이지 클릭한 경우
 		//(member_list.net?page=2&search_filed=-1$search_word=)
 		if(request.getParameter("search_word")==null
 				|| request.getParameter("search_word").equals("")) {
@@ -50,7 +50,7 @@ public class MemberSearchAction implements Action {
 			list = mdao.getList(search_field[index], search_word, page, limit);
 		}
 		
-		int maxpage = (listcount + limit -1) /limit;
+		int maxpage = (listcount + limit -1) / limit;
 		System.out.println("총 페이지 수 : " + maxpage);
 		
 		int startpage = ((page-1)/10)*10 +1;

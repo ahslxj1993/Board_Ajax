@@ -1,5 +1,7 @@
 package net.comment.action;
 
-public class CommentDelete {
+import net.board.action.Action;
+
+public class CommentDelete implements Action {
 
 }

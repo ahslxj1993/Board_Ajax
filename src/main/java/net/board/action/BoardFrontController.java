@@ -8,6 +8,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.comment.action.CommentAdd;
+import net.comment.action.CommentDelete;
+import net.comment.action.CommentList;
+import net.comment.action.CommentReply;
+import net.comment.action.CommentUpdate;
+
 @WebServlet("*.bo")
 public class BoardFrontController extends javax.servlet.http.HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -55,7 +61,21 @@ public class BoardFrontController extends javax.servlet.http.HttpServlet {
 		case "/BoardDeleteAction.bo":
 			action = new BoardDeleteAction();
 			break;
-
+		case "/CommentAdd.bo":
+			action = new CommentAdd();
+			break;
+		case "/CommentList.bo":
+			action = new CommentList();
+			break;
+		case "/CommentDelete.bo":
+			action = new CommentDelete();
+			break;
+		case "/CommentUpdate.bo":
+			action = new CommentUpdate();
+			break;
+		case "/CommentReply.bo":
+			action = new CommentReply();
+			break;
 		}
 		
 		forward = action.execute(request, response);
