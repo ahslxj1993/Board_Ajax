@@ -221,4 +221,109 @@ public class CommentDAO {
 			}//finally end
 			return result;
 		}
+
+
+		public int commentsDelete(int num) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			int result =0;
+		
+
+			try {
+				con = ds.getConnection();
+				
+				
+				String sql = "delete from comm where num = ?";
+				
+				// 새로운 글을 등록하는 부분입니다.
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, num);
+				
+						
+				result = pstmt.executeUpdate();
+				
+				if (result ==1)
+					System.out.println("데이터 삽입 완료되었습니다");
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			} finally {
+				if (pstmt != null)
+					try {
+						pstmt.close();
+					} catch (SQLException e) {
+						System.out.println(e.getMessage());
+					}
+
+				if (con != null)
+					try {
+						con.close();
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+			}//finally end
+			return result;
+		}
+
+
+		public int commentsReply(Comment c) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			int result = 0;
+			
+			try {
+				con = ds.getConnection();
+				con.setAutoCommit(false);
+				StringBuilder update_sql = new StringBuilder();
+				update_sql.append("update comm ");
+				update_sql.append("set comment_re_seq=comment_re_seq +1 ");
+				update_sql.append("where comment_re_ref = ? ");
+				update_sql.append("and comment_re_seq > ?");
+				pstmt = con.prepareStatement(update_sql.toString());
+				pstmt.setInt(1, c.getComment_re_ref());
+				pstmt.setInt(2, c.getComment_re_seq());
+				pstmt.executeUpdate();
+				pstmt.close();
+				
+				String sql = "insert into comm "
+							+ " values(com_seq.nextval , ? , ? , sysdate , ? , ? , ? , ?)";
+				
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, c.getId());
+				pstmt.setString(2, c.getContent());
+				pstmt.setInt(3, c.getComment_board_num());
+				pstmt.setInt(4, c.getComment_re_lev()+1);
+				pstmt.setInt(5, c.getComment_re_seq()+1);
+				pstmt.setInt(6, c.getComment_re_ref());
+				result = pstmt.executeUpdate();
+				
+				if (result ==1) {
+					System.out.println("reply 삽입 완료");
+					con.commit();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				try {
+					con.rollback();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			} finally {
+				
+				if(pstmt != null)
+					try {
+						pstmt.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				
+				if(con != null)
+					try {
+						con.setAutoCommit(true);
+						con.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+			}
+			return result;
+		}
 }

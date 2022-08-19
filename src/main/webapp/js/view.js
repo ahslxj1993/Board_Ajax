@@ -126,6 +126,54 @@ function updateForm(num){ //num : 수정할 댓글 글번호
 	$num.find('.comment-write-area-count').text(count+"/200");
 }//function(updateForm) end
 
+//더보기 - 삭제 클릭한 경우 실행하는 함수
+function del(num){
+	if(!confirm('정말 삭제하시겠습니까')){
+		$('#comment-list-item-layer'+num).hide(); //'수정 삭제' 영역 숨겨요
+		return;
+	}
+	
+	$.ajax({
+		url : 'CommentDelete.bo',
+		data : {num : num},
+		success: function (rdata){
+			if(rdata==1){
+				getList(option);
+			}
+		}
+	})
+}//function (del) end
+
+//답글 달기 폼
+function replyform (num,lev,seq,ref){
+	var output = '<li class="comment-list-item comment-list-item--replylev'
+				+ lev + ' comment-list-item-form></li>'
+	var $num = $('#'+num);
+	
+	//선택한 글 뒤에 답글 폼을 추가합니다.
+	$num.after(output);
+	
+	//글쓰기 영역을 복사합니다.
+	output = $('.comment-list+.commnet-write').clone();
+	
+	var $num_next = $num.next();
+	//선택한 글 뒤에 답글 폼 생성합니다.
+	$num_next.html(output);
+	
+	//답글 폼의 <textarea>의 속성 'placeholder'를 ''답글을 남겨보세요'로 바꾸어줍니다
+	$num_next.find('textarea').attr('placeholder','답글을 남겨보세요');
+	
+	//답글 폼의 '.btn-cancel'을 보여주고 클래스 'reply_cancel' 을 추가합니다.
+	$num_next.find('.btn-cancel').css('display','block').addClass('reply_cancel');
+	
+	//답글 폼의 '.btn-register'에 클래스 'reply' 차가합니다.
+	//속성 'data-ref'에 ref, 'data-lev'에 lev, 'data-seq'에 seq 값을 설정합니다
+	//등록을 답글 완료로 변경합니다.
+	$num_next.find('.btn-register').addClass('reply')
+			 .attr('data-ref',ref).attr('data-lev',lev).attr('data-seq',seq).text('답글완료');
+}//function (replyform) end
+
+
 
 
 $(function() {
@@ -217,10 +265,42 @@ $(function() {
 		//숨겨두었던 .comment-nick-area 영역을 보여줍니다.
 		$(selector + '>.comment-nick-area').css('display','block');
 		
-		//숨겨두었던 .comment-nick-area 영역 보여주면 '수정 삭제' 영역도 오입니다.
+		//숨겨두었던 .comment-nick-area 영역 보여주면 '수정 삭제' 영역도 보입니다.
 		//console.log($('#comment-list-item-layer'+num).css('display')) //'block'
 		//$('#comment-list-item-layer'+num).hide() //'수정 삭제' 영역을 숨겨요
 	})
+	
+	
+	//답글완료 클릭한 경우
+	$('.comment-area').on('click','.reply',function () {
+		var comment_re_ref = $(this).attr('data-ref');
+		var content = $(this).parent().parent().find('.comment-write-area-text').val();
+		var lev = $(this).attr('data-lev');
+		var seq = $(this).attr('data-seq');
+		
+		$.ajax({
+			url : 'CommentReply.bo',
+			data : {
+					id : $("#loginid").val(),
+					content : content,
+					comment_board_num : $("#comment_board_num").val(),
+					comment_re_lev : lev,
+					comment_re_ref : comment_re_ref,
+					comment_re_seq : seq
+					},
+			type : 'post',
+			success : function (rdata) {
+				if(rdata ==1 ){
+					getList(option);
+				}
+			}
+		})//ajax end
+	})//답글 완료 클릭한 경우
+	
+	//답글 쓰기 후 취소 버튼을 클릭한 경우
+	$('.comment-area').on('click','.reply_cancel', function () {
+		$(this).parent().parent().parent().remove();
+	}) //답글 쓰기 후 취소 버튼을 클릭한 경우
 	
 	
 	

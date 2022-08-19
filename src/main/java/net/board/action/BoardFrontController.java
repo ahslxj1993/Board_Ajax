@@ -61,6 +61,9 @@ public class BoardFrontController extends javax.servlet.http.HttpServlet {
 		case "/BoardDeleteAction.bo":
 			action = new BoardDeleteAction();
 			break;
+		case "/BoardFileDown.bo":
+			action = new FileDownAction();
+			break;
 		case "/CommentAdd.bo":
 			action = new CommentAdd();
 			break;
